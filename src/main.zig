@@ -1,4 +1,5 @@
 const std = @import("std");
+const aoc2019day1 = @import("./2019/01.zig");
 
 pub fn main() !void {
     std.debug.print("hello world\n", .{});
@@ -15,4 +16,5 @@ pub fn main() !void {
     // 10. determine year and day based on filename
 
     // 20. run function for year and day
+    try aoc2019day1.answer();
 }
