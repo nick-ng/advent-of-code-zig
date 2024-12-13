@@ -1,23 +1,32 @@
 {
   "version": "0.2.0",
   "configurations": [
-      {
-          "type": "lldb",
-          "request": "launch",
-          "name": "2019 1",
-          "program": "${workspaceFolder}/zig-out/bin/advent-of-code",
-          "args": ["./data/2019-01.txt"],
-          "cwd": "${workspaceFolder}",
-          "preLaunchTask": "build"
-      },
-      {
-        "type": "lldb",
-        "request": "launch",
-        "name": "2024 1",
-        "program": "${workspaceFolder}/zig-out/bin/advent-of-code",
-        "args": ["./data/2024-01.txt"],
-        "cwd": "${workspaceFolder}",
-        "preLaunchTask": "build"
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "2019 1",
+      "program": "${workspaceFolder}/zig-out/bin/advent-of-code",
+      "args": ["./data/2019-01.txt"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "2024 1",
+      "program": "${workspaceFolder}/zig-out/bin/advent-of-code",
+      "args": ["./data/2024-01.txt"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "2024 2",
+      "program": "${workspaceFolder}/zig-out/bin/advent-of-code",
+      "args": ["./data/2024-02.txt"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build"
     }
   ]
 }
