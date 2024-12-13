@@ -1,5 +1,7 @@
 const std = @import("std");
+const utils = @import("./utils.zig");
 const aoc2019day1 = @import("./2019/01.zig");
+const aoc2024day1 = @import("./2024/01.zig");
 
 const digits: [10]u8 = .{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -14,7 +16,6 @@ pub fn main() !void {
         return;
     }
 
-    // 10. determine year and day based on filename
     const filename = temp_filename.?;
     std.debug.print("filename: {?s}\n", .{filename});
     var year: u32 = 0;
@@ -32,7 +33,10 @@ pub fn main() !void {
             const temp1: []u8 = word[0..word_counter];
             word_counter = 0;
             if (year == 0) {
-                year = try std.fmt.parseInt(u32, temp1, 10);
+                year = std.fmt.parseInt(u32, temp1, 10) catch |err| {
+                    std.debug.print("Could not parse year because: {}\n", .{err});
+                    return err;
+                };
             } else if (day == 0) {
                 day = try std.fmt.parseInt(u8, temp1, 10);
             }
@@ -51,13 +55,27 @@ pub fn main() !void {
 
     std.debug.print("{}, day {}\n", .{ year, day });
 
-    // 20. run function for year and day
+    const allocator = std.heap.page_allocator;
+    const file_content = try utils.readFile(filename, allocator);
+    defer allocator.free(file_content);
+
     switch (year) {
         2019 => {
             switch (day) {
                 1 => {
-                    try aoc2019day1.answer();
+                    try aoc2019day1.answer(file_content);
                     return;
+                },
+                else => {
+                    std.debug.print("No solution for {}, day {}\n", .{ year, day });
+                    return;
+                },
+            }
+        },
+        2024 => {
+            switch (day) {
+                1 => {
+                    try aoc2024day1.answer(file_content);
                 },
                 else => {
                     std.debug.print("No solution for {}, day {}\n", .{ year, day });

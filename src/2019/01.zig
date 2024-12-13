@@ -1,19 +1,16 @@
 const std = @import("std");
 const utils = @import("../utils.zig");
 
-pub fn answer() !void {
+pub fn answer(input: []u8) !void {
     std.debug.print("Fuel requirements\n", .{});
-    const allocator = std.heap.page_allocator;
-    const file_content = try utils.readFile("./data/2019-01.txt", allocator);
-    defer allocator.free(file_content);
 
     var word_counter: u32 = 0;
     var word_buffer: [20]u8 = undefined;
     var number_counter: u32 = 0;
     var numbers_array: [1000]i32 = undefined;
     var i: u32 = 0;
-    while (i < file_content.len) : (i += 1) {
-        if (file_content[i] == '\n') {
+    while (i < input.len) : (i += 1) {
+        if (input[i] == '\n') {
             const word = word_buffer[0..word_counter];
             word_counter = 0;
             const number = try std.fmt.parseInt(i32, word, 10);
@@ -23,7 +20,7 @@ pub fn answer() !void {
             continue;
         }
 
-        word_buffer[word_counter] = file_content[i];
+        word_buffer[word_counter] = input[i];
         word_counter += 1;
     }
 
