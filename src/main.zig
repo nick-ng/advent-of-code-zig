@@ -7,7 +7,9 @@ const aoc2024day2 = @import("./2024/02.zig");
 const digits: [10]u8 = .{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 pub fn main() !void {
-    var args_iter = std.process.args();
+    const args_allocator = std.heap.page_allocator;
+    var args_iter = try std.process.argsWithAllocator(args_allocator);
+    // defer args_allocator.free(args_iter);
 
     _ = args_iter.skip();
     const temp_filename = args_iter.next();
