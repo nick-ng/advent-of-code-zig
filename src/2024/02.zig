@@ -2,7 +2,7 @@ const std = @import("std");
 
 pub fn answer(input: []u8) !void {
     std.debug.print("Day 2: Red-Nosed Reports\n", .{});
-    std.debug.print("{?s}", .{input});
+    // std.debug.print("{?s}", .{input});
 
     // a report consists of a number of levels
     // const reports: [1000][]i32 = undefined;
@@ -11,6 +11,7 @@ pub fn answer(input: []u8) !void {
     var level_index: u32 = 0;
 
     var safe_reports: i32 = 0;
+    var safe_reports_with_pd: i32 = 0;
 
     var word_buffer: [20]u8 = undefined;
     var word_buffer_index: u32 = 0;
@@ -28,41 +29,57 @@ pub fn answer(input: []u8) !void {
             level_index += 1;
             word_buffer_index = 0;
 
-            std.debug.print("number: {}\n", .{number});
+            // std.debug.print("number: {}\n", .{number});
 
             if (character == '\n') {
-                var j: u32 = 2;
+                var problem_dampener: i32 = -1;
 
-                var direction: i32 = 1;
-                var difference = report[1] - report[0];
-                var safe: i32 = 1;
-                if (difference < 0) {
-                    direction = -1;
-                    difference = difference * direction;
-                }
+                while (problem_dampener < level_index) : (problem_dampener += 1) {
+                    var j: u32 = 0;
+                    var is_first: bool = true;
+                    var prev_level: i32 = 0;
 
-                if (difference < 1 or difference > 3) {
-                    safe = 0;
-                }
+                    var safe_inc: bool = true;
+                    var safe_dec: bool = true;
+                    var difference: i32 = undefined;
+                    while (j < level_index) : (j += 1) {
+                        if (j == problem_dampener) {
+                            continue;
+                        }
+                        const curr_level = report[j];
 
-                var prev_level = report[1];
-                while (j < level_index) : (j += 1) {
-                    const curr_level = report[j];
-                    difference = curr_level - prev_level;
-                    difference = difference * direction;
-                    std.debug.print("difference: {}\n", .{difference});
-                    if (difference < 1 or difference > 3) {
-                        safe = 0;
+                        if (is_first) {
+                            prev_level = curr_level;
+                            is_first = false;
+                            continue;
+                        }
+
+                        difference = curr_level - prev_level;
+
+                        if (difference < 1 or difference > 3) {
+                            safe_inc = false;
+                        }
+                        if (difference > -1 or difference < -3) {
+                            safe_dec = false;
+                        }
+
+                        // std.debug.print("difference: {}, {}, {}\n", .{ difference, safe_inc, safe_dec });
+
+                        prev_level = curr_level;
                     }
 
-                    prev_level = curr_level;
+                    if (safe_inc or safe_dec) {
+                        if (problem_dampener == -1) {
+                            safe_reports += 1;
+                        }
+
+                        safe_reports_with_pd += 1;
+                        break;
+                    }
+
+                    // std.debug.print("report: {any}\n", .{reports[report_index]});
+
                 }
-
-                std.debug.print("safe: {}\n", .{safe});
-
-                safe_reports += safe;
-
-                // std.debug.print("report: {any}\n", .{reports[report_index]});
 
                 report_index += 1;
                 level_index = 0;
@@ -77,4 +94,5 @@ pub fn answer(input: []u8) !void {
     }
 
     std.debug.print("Part 1: {}\n", .{safe_reports});
+    std.debug.print("Part 2: {}\n", .{safe_reports_with_pd});
 }
