@@ -13,7 +13,7 @@ fn getChar(x: u32, y: u32, width: u32, input: []u8) u8 {
 
 pub fn answer(input: []u8) !void {
     std.debug.print("Day 4: Ceres Search\n", .{});
-    std.debug.print("{?s}\n", .{input});
+    // std.debug.print("{?s}\n", .{input});
 
     // get "width" of input
     var width: u32 = 0;
@@ -45,6 +45,7 @@ pub fn answer(input: []u8) !void {
 
     var xmas: [4]u8 = undefined;
     var xmas_total: i32 = 0;
+    var cross_mas_total: i32 = 0;
     var index: u32 = 0;
     i = 0;
     while (i < width) : (i += 1) {
@@ -70,7 +71,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i + 3, j, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("E: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("E: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -84,7 +85,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i - 3, j, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("W: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("W: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -98,7 +99,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("S: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("S: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -112,7 +113,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("N: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("N: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -125,7 +126,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i + 3, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("NE: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("NE: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -138,7 +139,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i + 3, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("SE: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("SE: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -151,7 +152,7 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i - 3, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("SW: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("SW: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
                 }
@@ -164,13 +165,29 @@ pub fn answer(input: []u8) !void {
                     xmas[3] = getChar(i - 3, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
-                        std.debug.print("NW: ({}, {}): {?s}\n", .{ i, j, xmas });
+                        // std.debug.print("NW: ({}, {}): {?s}\n", .{ i, j, xmas });
                         xmas_total += 1;
                     }
+                }
+            }
+
+            if (i > 0 and i < (width - 1) and j > 0 and j < (height - 1) and character == 'A') {
+                // check for cross mas
+                const a: [2]u8 = .{ getChar(i - 1, j - 1, width, input), getChar(i + 1, j + 1, width, input) };
+                const check_a = std.mem.eql(u8, &a, "MS") or std.mem.eql(u8, &a, "SM");
+
+                const b: [2]u8 = .{ getChar(i - 1, j + 1, width, input), getChar(i + 1, j - 1, width, input) };
+                const check_b = std.mem.eql(u8, &b, "MS") or std.mem.eql(u8, &b, "SM");
+
+                if (check_a and check_b) {
+                    // std.debug.print("a {?s}\n", .{a});
+                    // std.debug.print("b {?s}\n", .{b});
+                    cross_mas_total += 1;
                 }
             }
         }
     }
 
-    std.debug.print("Part 1: {}", .{xmas_total});
+    std.debug.print("Part 1: {}\n", .{xmas_total});
+    std.debug.print("Part 2: {}\n", .{cross_mas_total});
 }
