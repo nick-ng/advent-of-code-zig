@@ -16,14 +16,40 @@ pub fn answer(input: []u8) !void {
     var operator_index: u32 = 0;
     var number_buffer: [3]u8 = undefined;
     var number_index: u32 = 0;
-    var pattern_index: u32 = 0;
+    var pattern_index: u32 = 0; // 8
+    var enable_pattern_index: u32 = 0;
+    var disable_pattern_index: u32 = 0;
 
     var total: i32 = 0;
+    var toggle_total: i32 = 0;
+    var enabled: bool = true;
 
     var i: u32 = 0;
     while (i < input.len) : (i += 1) {
         const character = input[i];
         // std.debug.print("character: {?c} {?c}\n", .{ character, multiply_pattern[pattern_index] });
+        if (enable_pattern[enable_pattern_index] == character) {
+            if (character == ')') {
+                enable_pattern_index = 0;
+                enabled = true;
+            } else {
+                enable_pattern_index += 1;
+            }
+        } else {
+            enable_pattern_index = 0;
+        }
+
+        if (disable_pattern[disable_pattern_index] == character) {
+            if (character == ')') {
+                disable_pattern_index = 0;
+                enabled = false;
+            } else {
+                disable_pattern_index += 1;
+            }
+        } else {
+            disable_pattern_index = 0;
+        }
+
         if (multiply_pattern[pattern_index] == character) {
             operator_buffer[operator_index] = character;
             operator_index += 1;
@@ -43,6 +69,9 @@ pub fn answer(input: []u8) !void {
                     const product = number_a * number_b;
                     // std.debug.print("{} * {} = {}\n", .{ number_a, number_b, product });
                     total += product;
+                    if (enabled) {
+                        toggle_total += product;
+                    }
                     // std.debug.print("{?s} = {} ({})\n", .{ operator_buffer[0..operator_index], product, total });
                     operator_index = 0;
                     pattern_index = 0;
@@ -81,10 +110,7 @@ pub fn answer(input: []u8) !void {
                     operator_index += 1;
                     pattern_index = 1;
                 }
-                continue;
-            }
-
-            if (multiply_pattern[pattern_index] == 'd') {
+            } else if (multiply_pattern[pattern_index] == 'd') {
                 pattern_index += 1;
             }
         } else {
@@ -99,5 +125,6 @@ pub fn answer(input: []u8) !void {
         }
     }
 
-    std.debug.print("Part 1: {}", .{total});
+    std.debug.print("Part 1: {}\n", .{total});
+    std.debug.print("Part 2: {}\n", .{toggle_total});
 }
