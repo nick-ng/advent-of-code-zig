@@ -4,7 +4,9 @@ const aoc2019day1 = @import("./2019/01.zig");
 const aoc2024day1 = @import("./2024/01.zig");
 const aoc2024day2 = @import("./2024/02.zig");
 const aoc2024day3 = @import("./2024/03.zig");
-const aoc2024day4 = @import("./2024//04.zig");
+const aoc2024day4 = @import("./2024/04.zig");
+const aoc2024day5 = @import("./2024/05.zig");
+const aoc2024day6 = @import("./2024/06.zig");
 
 const digits: [10]u8 = .{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -65,6 +67,15 @@ pub fn main() !void {
     defer allocator.free(file_content);
 
     switch (year) {
+        1 => {
+            const a = 12;
+            std.debug.print("{x} {b} {}\n", .{ a, a, a });
+            const b = try std.fmt.parseInt(u32, "7", 16);
+            const c = std.math.pow(u32, 2, 3);
+            const d = b & c;
+            std.debug.print("d: {}, b: {}, c:{}\n", .{ d, b, c });
+            std.debug.print("{x} {b} {}\n", .{ d, d, d });
+        },
         2019 => {
             switch (day) {
                 1 => {
@@ -90,6 +101,12 @@ pub fn main() !void {
                 },
                 4 => {
                     try aoc2024day4.answer(file_content);
+                },
+                5 => {
+                    try aoc2024day5.answer(file_content);
+                },
+                6 => {
+                    try aoc2024day6.answer(file_content);
                 },
                 else => {
                     std.debug.print("No solution for {}, day {}\n", .{ year, day });
