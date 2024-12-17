@@ -7,6 +7,7 @@ const aoc2024day3 = @import("./2024/03.zig");
 const aoc2024day4 = @import("./2024/04.zig");
 const aoc2024day5 = @import("./2024/05.zig");
 const aoc2024day6 = @import("./2024/06.zig");
+const aoc2024day7 = @import("./2024/07.zig");
 
 const digits: [10]u8 = .{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -107,6 +108,9 @@ pub fn main() !void {
                 },
                 6 => {
                     try aoc2024day6.answer(file_content);
+                },
+                7 => {
+                    try aoc2024day7.answer(file_content);
                 },
                 else => {
                     std.debug.print("No solution for {}, day {}\n", .{ year, day });
