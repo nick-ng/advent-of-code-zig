@@ -81,7 +81,6 @@ pub fn answer(input: []u8) !void {
     while (i < left_numbers.len) : (i += 1) {
         current_number = left_numbers[i];
         if (current_number == previous_number) {
-            // @todo(nick-ng): if the current number is the same as the previous number, then its similarity score will be the same as the previous.
             total_similarity += (previous_count * current_number);
             continue;
         }

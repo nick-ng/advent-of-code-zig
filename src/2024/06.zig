@@ -1,24 +1,7 @@
 const std = @import("std");
+const utils = @import("./utils.zig");
 
 const directions: [4][2]i32 = .{ .{ 0, -1 }, .{ 1, 0 }, .{ 0, 1 }, .{ -1, 0 } };
-
-// width doesn't include the new line
-fn getIndex(x: u32, y: u32, width: u32) u32 {
-    return (y * (width + 1)) + x;
-}
-
-fn getCoords(index: u32, width: u32) [2]u32 {
-    const x = index % (width + 1);
-    const y = index / (width + 1);
-    const result: [2]u32 = .{ x, y };
-    return result;
-}
-
-fn getChar(x: u32, y: u32, width: u32, input: []u8) u8 {
-    const index = getIndex(x, y, width);
-    const character = input[index];
-    return character;
-}
 
 pub fn answer(input: []u8) !void {
     std.debug.print("Day 6: Guard Gallivant\n", .{});
@@ -43,7 +26,7 @@ pub fn answer(input: []u8) !void {
                 starting_position[0] = i;
                 starting_position[1] = 0;
             } else {
-                const temp = getCoords(i, width);
+                const temp = utils.getCoords(i, width);
                 starting_position[0] = temp[0];
                 starting_position[1] = temp[1];
             }
@@ -60,7 +43,7 @@ pub fn answer(input: []u8) !void {
 
     current_position[0] = starting_position[0];
     current_position[1] = starting_position[1];
-    const starting_index = getIndex(starting_position[0], starting_position[1], width);
+    const starting_index = utils.getIndex(starting_position[0], starting_position[1], width);
 
     const height = (input.len / width) - 1;
 
@@ -87,7 +70,7 @@ pub fn answer(input: []u8) !void {
         // std.debug.print("debug: current position: {any}\n", .{current_position});
         // std.debug.print("debug: next position: {any}\n", .{next_position});
 
-        const next_char = getChar(next_position[0], next_position[1], width, input);
+        const next_char = utils.getChar(next_position[0], next_position[1], width, input);
 
         if (next_char == '#') {
             current_direction = (current_direction + 1) % 4;
@@ -95,7 +78,7 @@ pub fn answer(input: []u8) !void {
         } else {
             current_position[0] = next_position[0];
             current_position[1] = next_position[1];
-            const current_index = getIndex(current_position[0], current_position[1], width);
+            const current_index = utils.getIndex(current_position[0], current_position[1], width);
             if (input[current_index] != '^') {
                 input[current_index] = 'X';
             }
@@ -169,8 +152,8 @@ pub fn answer(input: []u8) !void {
             // std.debug.print("debug: current position: {any}\n", .{current_position});
             // std.debug.print("debug: next position: {any}\n", .{next_position});
 
-            const current_index = getIndex(current_position[0], current_position[1], width);
-            const next_index = getIndex(next_position[0], next_position[1], width);
+            const current_index = utils.getIndex(current_position[0], current_position[1], width);
+            const next_index = utils.getIndex(next_position[0], next_position[1], width);
             const next_char = input[next_index];
 
             // you bump into an obstruction

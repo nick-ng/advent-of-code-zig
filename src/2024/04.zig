@@ -1,15 +1,5 @@
 const std = @import("std");
-
-// width doesn't include the new line
-fn getIndex(x: u32, y: u32, width: u32) u32 {
-    return (y * (width + 1)) + x;
-}
-
-fn getChar(x: u32, y: u32, width: u32, input: []u8) u8 {
-    const index = getIndex(x, y, width);
-    const character = input[index];
-    return character;
-}
+const utils = @import("./utils.zig");
 
 pub fn answer(input: []u8) !void {
     std.debug.print("Day 4: Ceres Search\n", .{});
@@ -33,13 +23,13 @@ pub fn answer(input: []u8) !void {
 
     // var x: u32 = 2;
     // var y: u32 = 0;
-    // var index = getIndex(x, y, width);
+    // var index = utils.getIndex(x, y, width);
     // var character = input[index];
     // std.debug.print("({},{}): {?c}\n", .{ x, y, character });
 
     // x = 3;
     // y = 7;
-    // index = getIndex(x, y, width);
+    // index = utils.getIndex(x, y, width);
     // character = input[index];
     // std.debug.print("({},{}): {?c}\n", .{ x, y, character });
 
@@ -53,7 +43,7 @@ pub fn answer(input: []u8) !void {
         var j: u32 = 0;
         while (j < height) : (j += 1) {
             // std.debug.print("j: {} {}\n", .{ j, height });
-            index = getIndex(i, j, width);
+            index = utils.getIndex(i, j, width);
             if (index > (input.len - 1)) {
                 std.debug.print("out of bounds ({}, {})\n", .{ i, j });
                 break;
@@ -65,10 +55,10 @@ pub fn answer(input: []u8) !void {
                 // east
                 if (width - i > 3) {
                     // std.debug.print("checking east\n", .{});
-                    xmas[0] = getChar(i + 0, j, width, input);
-                    xmas[1] = getChar(i + 1, j, width, input);
-                    xmas[2] = getChar(i + 2, j, width, input);
-                    xmas[3] = getChar(i + 3, j, width, input);
+                    xmas[0] = utils.getChar(i + 0, j, width, input);
+                    xmas[1] = utils.getChar(i + 1, j, width, input);
+                    xmas[2] = utils.getChar(i + 2, j, width, input);
+                    xmas[3] = utils.getChar(i + 3, j, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("E: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -79,10 +69,10 @@ pub fn answer(input: []u8) !void {
                 // west
                 if (i >= 3) {
                     // std.debug.print("checking west\n", .{});
-                    xmas[0] = getChar(i - 0, j, width, input);
-                    xmas[1] = getChar(i - 1, j, width, input);
-                    xmas[2] = getChar(i - 2, j, width, input);
-                    xmas[3] = getChar(i - 3, j, width, input);
+                    xmas[0] = utils.getChar(i - 0, j, width, input);
+                    xmas[1] = utils.getChar(i - 1, j, width, input);
+                    xmas[2] = utils.getChar(i - 2, j, width, input);
+                    xmas[3] = utils.getChar(i - 3, j, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("W: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -93,10 +83,10 @@ pub fn answer(input: []u8) !void {
                 // south
                 if (height - j > 3) {
                     // std.debug.print("checking south\n", .{});
-                    xmas[0] = getChar(i, j + 0, width, input);
-                    xmas[1] = getChar(i, j + 1, width, input);
-                    xmas[2] = getChar(i, j + 2, width, input);
-                    xmas[3] = getChar(i, j + 3, width, input);
+                    xmas[0] = utils.getChar(i, j + 0, width, input);
+                    xmas[1] = utils.getChar(i, j + 1, width, input);
+                    xmas[2] = utils.getChar(i, j + 2, width, input);
+                    xmas[3] = utils.getChar(i, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("S: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -107,10 +97,10 @@ pub fn answer(input: []u8) !void {
                 // north
                 if (j >= 3) {
                     // std.debug.print("checking south\n", .{});
-                    xmas[0] = getChar(i, j - 0, width, input);
-                    xmas[1] = getChar(i, j - 1, width, input);
-                    xmas[2] = getChar(i, j - 2, width, input);
-                    xmas[3] = getChar(i, j - 3, width, input);
+                    xmas[0] = utils.getChar(i, j - 0, width, input);
+                    xmas[1] = utils.getChar(i, j - 1, width, input);
+                    xmas[2] = utils.getChar(i, j - 2, width, input);
+                    xmas[3] = utils.getChar(i, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("N: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -120,10 +110,10 @@ pub fn answer(input: []u8) !void {
 
                 // NE
                 if (width - i > 3 and j >= 3) {
-                    xmas[0] = getChar(i + 0, j - 0, width, input);
-                    xmas[1] = getChar(i + 1, j - 1, width, input);
-                    xmas[2] = getChar(i + 2, j - 2, width, input);
-                    xmas[3] = getChar(i + 3, j - 3, width, input);
+                    xmas[0] = utils.getChar(i + 0, j - 0, width, input);
+                    xmas[1] = utils.getChar(i + 1, j - 1, width, input);
+                    xmas[2] = utils.getChar(i + 2, j - 2, width, input);
+                    xmas[3] = utils.getChar(i + 3, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("NE: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -133,10 +123,10 @@ pub fn answer(input: []u8) !void {
 
                 // SE
                 if (width - i > 3 and height - j > 3) {
-                    xmas[0] = getChar(i + 0, j + 0, width, input);
-                    xmas[1] = getChar(i + 1, j + 1, width, input);
-                    xmas[2] = getChar(i + 2, j + 2, width, input);
-                    xmas[3] = getChar(i + 3, j + 3, width, input);
+                    xmas[0] = utils.getChar(i + 0, j + 0, width, input);
+                    xmas[1] = utils.getChar(i + 1, j + 1, width, input);
+                    xmas[2] = utils.getChar(i + 2, j + 2, width, input);
+                    xmas[3] = utils.getChar(i + 3, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("SE: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -146,10 +136,10 @@ pub fn answer(input: []u8) !void {
 
                 // SW
                 if (i >= 3 and height - j > 3) {
-                    xmas[0] = getChar(i - 0, j + 0, width, input);
-                    xmas[1] = getChar(i - 1, j + 1, width, input);
-                    xmas[2] = getChar(i - 2, j + 2, width, input);
-                    xmas[3] = getChar(i - 3, j + 3, width, input);
+                    xmas[0] = utils.getChar(i - 0, j + 0, width, input);
+                    xmas[1] = utils.getChar(i - 1, j + 1, width, input);
+                    xmas[2] = utils.getChar(i - 2, j + 2, width, input);
+                    xmas[3] = utils.getChar(i - 3, j + 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("SW: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -159,10 +149,10 @@ pub fn answer(input: []u8) !void {
 
                 // NW
                 if (i >= 3 and j >= 3) {
-                    xmas[0] = getChar(i - 0, j - 0, width, input);
-                    xmas[1] = getChar(i - 1, j - 1, width, input);
-                    xmas[2] = getChar(i - 2, j - 2, width, input);
-                    xmas[3] = getChar(i - 3, j - 3, width, input);
+                    xmas[0] = utils.getChar(i - 0, j - 0, width, input);
+                    xmas[1] = utils.getChar(i - 1, j - 1, width, input);
+                    xmas[2] = utils.getChar(i - 2, j - 2, width, input);
+                    xmas[3] = utils.getChar(i - 3, j - 3, width, input);
 
                     if (std.mem.eql(u8, &xmas, "XMAS")) {
                         // std.debug.print("NW: ({}, {}): {?s}\n", .{ i, j, xmas });
@@ -173,10 +163,10 @@ pub fn answer(input: []u8) !void {
 
             if (i > 0 and i < (width - 1) and j > 0 and j < (height - 1) and character == 'A') {
                 // check for cross mas
-                const a: [2]u8 = .{ getChar(i - 1, j - 1, width, input), getChar(i + 1, j + 1, width, input) };
+                const a: [2]u8 = .{ utils.getChar(i - 1, j - 1, width, input), utils.getChar(i + 1, j + 1, width, input) };
                 const check_a = std.mem.eql(u8, &a, "MS") or std.mem.eql(u8, &a, "SM");
 
-                const b: [2]u8 = .{ getChar(i - 1, j + 1, width, input), getChar(i + 1, j - 1, width, input) };
+                const b: [2]u8 = .{ utils.getChar(i - 1, j + 1, width, input), utils.getChar(i + 1, j - 1, width, input) };
                 const check_b = std.mem.eql(u8, &b, "MS") or std.mem.eql(u8, &b, "SM");
 
                 if (check_a and check_b) {
